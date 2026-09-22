@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Project Pulse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>Project Pulse</h1>
+      <p class="subtitle">A concise view of active projects and priorities</p>
+    </div>
+  </header>
+
+  <main class="dashboard container" id="dashboard">
+    <section class="control-bar" aria-hidden="false">
+      <!-- Designer may add polished controls here -->
+    </section>
+
+    <section id="project-list" class="project-list" aria-live="polite">
+      <div id="loading" class="loading">Loading projects…</div>
+    </section>
+  </main>
+
+  <template id="project-card-template">
+    <article class="project-card" role="article">
+      <header class="project-card-header">
+        <h2 class="project-name"></h2>
+        <div class="project-meta">
+          <span class="status" aria-hidden="true"></span>
+          <span class="priority" aria-hidden="true"></span>
+        </div>
+      </header>
+      <div class="project-body">
+        <p class="owner"></p>
+        <p class="recent-activity"></p>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    async function loadProjects() {
+      const list = document.getElementById('project-list');
+      const loading = document.getElementById('loading');
+      try {
+        const res = await fetch('project-data.json');
+        if (!res.ok) throw new Error('Network response not ok');
+        const data = await res.json();
+        const projects = Array.isArray(data.projects) ? data.projects : [];
+        if (loading) loading.remove();
+
+        if (projects.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'empty';
+          empty.textContent = 'No projects available.';
+          list.appendChild(empty);
+          return;
+        }
+
+        const tmpl = document.getElementById('project-card-template');
+        projects.forEach(p => {
+          const node = tmpl.content.cloneNode(true);
+          node.querySelector('.project-name').textContent = p.name || 'Untitled';
+          node.querySelector('.owner').textContent = 'Owner: ' + (p.owner || 'Unassigned');
+          const statusEl = node.querySelector('.status');
+          statusEl.textContent = p.status || '';
+          statusEl.setAttribute('data-status', (p.status || '').toLowerCase());
+          node.querySelector('.recent-activity').textContent = p.recentActivity || '';
+          const prioEl = node.querySelector('.priority');
+          prioEl.textContent = p.priority || '';
+
+          list.appendChild(node);
+        });
+
+      } catch (err) {
+        if (loading) {
+          loading.classList.add('error');
+          loading.textContent = 'Failed to load projects: ' + err.message;
+        }
+        console.error(err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProjects);
+  </script>
+</body>
+</html>

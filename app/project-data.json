@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "name": "Onboarding redesign",
+      "owner": "Alex J",
+      "status": "active",
+      "recentActivity": "User tests completed; iterating on feedback",
+      "priority": "High"
+    },
+    {
+      "name": "Billing API migration",
+      "owner": "Priya S",
+      "status": "blocked",
+      "recentActivity": "Waiting on partner API contract",
+      "priority": "High"
+    },
+    {
+      "name": "Docs hub",
+      "owner": "Sam L",
+      "status": "completed",
+      "recentActivity": "Published v1.0",
+      "priority": "Low"
+    },
+    {
+      "name": "Performance improvements",
+      "owner": "Jordan K",
+      "status": "active",
+      "recentActivity": "Profiling shows hot path improvements available",
+      "priority": "Medium"
+    },
+    {
+      "name": "Mobile accessibility",
+      "owner": "Lee T",
+      "status": "on-hold",
+      "recentActivity": "Design sign-off pending",
+      "priority": "Medium"
+    },
+    {
+      "name": "Integrations SDK",
+      "owner": "Rina P",
+      "status": "active",
+      "recentActivity": "Beta consumers onboarded",
+      "priority": "High"
+    }
+  ]
+}
